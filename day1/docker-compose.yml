@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+
+  postgres:
+    container_name: postgres
+    image: postgres:15
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_MULTIPLE_DATABASES: employee,vacation
+    ports:
+      - 5431:5432
+    volumes:
+      - ./create-multiple-postgresql-databases.sh:/docker-entrypoint-initdb.d/create-multiple-postgresql-databases.sh
+      - ./pgdata:/var/lib/postgresql/data
+    networks:
+      - corpbot-network
+      
+    #employee:
+    #    image: employee:latest
+    #    container_name: employee
+    #    depends_on:
+    #      - postgres
+    #    ports:
+    #      - 8080:8080
+    #    networks:
+    #      - corpbot-network 
+
+networks:
+  corpbot-network:
+    driver: bridge
